@@ -6,7 +6,7 @@ const path = require("path");
 module.exports = {
 
   // Path to your entry point. From this file Webpack will begin his work
-  entry: "./app.js",
+  entry: "./src/js/app.js",
 
   // Path and filename of your result bundle.
   // Webpack will bundle all JavaScript into this file

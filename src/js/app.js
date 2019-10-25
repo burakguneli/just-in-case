@@ -36,9 +36,9 @@ Example.gravity = function() {
   const earth = Bodies.circle(
     document.documentElement.clientWidth/2,
     document.documentElement.clientHeight/2 - 50,
-    50,
+    250,
     {
-      mass: 1000,
+      mass: 2700,
       frictionAir: 1,
       plugin: {
         attractors: [
@@ -56,8 +56,8 @@ Example.gravity = function() {
 
   const moon = Bodies.circle(
     document.documentElement.clientWidth/2,
-    document.documentElement.clientHeight/2 - 200,
-    10,
+    document.documentElement.clientHeight/2 - 450,
+    20,
     {
       mass: 1,
       frictionAir: 0,
