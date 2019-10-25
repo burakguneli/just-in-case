@@ -1,1 +1,2 @@
-# just-in-case
+# Just In Case
+Earth, gravity, orbit simulation project.
