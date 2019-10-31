@@ -15,13 +15,19 @@ Matter.use(
   "matter-attractors"
 );
 
+function roundInteger(value, precision) {
+  const multiplier = Math.pow(10, precision || 0);
+
+  return Math.round(value * multiplier) / multiplier;
+}
+
 const OrbitSimulation = {
   gravitySimulation: function() {
     const engine = Engine.create(),
       world = engine.world;
 
     const render = Render.create({
-      element: document.body,
+      element: document.getElementById("orbit-simulation-canvas"),
       engine: engine,
       options: {
         width: document.documentElement.clientWidth,
@@ -123,6 +129,35 @@ const OrbitSimulation = {
     World.add(world, earth);
     World.add(world, spaceShip);
 
+    const ctx = document.body.getElementsByTagName("canvas")[0].getContext("2d");
+    const spaceShipSpeedWrapper = document.getElementsByClassName("current-speed")[0];
+    const moonSpeedWrapper = document.getElementsByClassName("current-speed")[1];
+
+    function drawVectors() { //render force and velocity vectors for each mass
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = '#00ffff';
+
+        ctx.beginPath();
+
+        ctx.moveTo(spaceShip.position.x, spaceShip.position.y);
+
+        ctx.lineTo(
+          spaceShip.position.x + 10 * spaceShip.velocity.x * 20,
+          spaceShip.position.y + 10 * spaceShip.velocity.y * 20
+        );
+
+        ctx.stroke();
+    }
+
+    (function cycle() { //render loop
+      drawVectors();
+
+      spaceShipSpeedWrapper.innerHTML = `Space Ship Speed: ${roundInteger(spaceShip.speed * 1000, 1)} km`;
+      moonSpeedWrapper.innerHTML = `Moon Speed: ${roundInteger(moon.speed * 1000, 1)} km`;
+
+      window.requestAnimationFrame(cycle);
+    })();
+
     const mouse = Mouse.create(render.canvas),
       mouseConstraint = MouseConstraint.create(engine, {
         mouse: mouse,
@@ -153,7 +188,7 @@ const OrbitSimulation = {
             },
             {
               x: 0,
-              y: 0.00001,
+              y: 0.0000075,
             }
           );
 
@@ -169,7 +204,7 @@ const OrbitSimulation = {
             },
             {
               x: 0,
-              y: -0.00001
+              y: -0.0000075
             }
           );
 
@@ -184,7 +219,7 @@ const OrbitSimulation = {
               y: spaceShip.position.y
             },
             {
-              x: -0.00001,
+              x: -0.0000075,
               y: 0
             }
           );
@@ -200,7 +235,7 @@ const OrbitSimulation = {
               y: spaceShip.position.y
             },
             {
-              x: 0.00001,
+              x: 0.0000075,
               y: 0
             }
           );
